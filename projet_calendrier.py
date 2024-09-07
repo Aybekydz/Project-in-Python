@@ -6,54 +6,54 @@ ex : Mardi 21 Décembre 2021
 """
 
 
-def bissextile(année):
-  if (année % 4 == 0 and année % 100 != 0) or année % 400 == 0:
+def bissextile(annee):
+  if (annee % 4 == 0 and annee % 100 != 0) or annee % 400 == 0:
     return True
   else:
     return False
 
 
-def nbjoursAnnee(année):
-  if bissextile(année) == True:
+def nbjoursAnnee(annee):
+  if bissextile(annee) == True:
     return 366
   else:
     return 365
 
 
-def nbjoursMois(mois, année):
+def nbjoursMois(mois, annee):
   anneeClassique = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-  if bissextile(année):
+  if bissextile(annee):
     anneeClassique[1] += 1
   return anneeClassique[mois - 1]
 
 
 
-def ageJours(jour_naissance, mois_naissance, année_naissance, jour_actuel, mois_actuel, année_actuel):
+def ageJours(jour_naissance, mois_naissance, annee_naissance, jour_actuel, mois_actuel, annee_actuel):
   #Afin d'éviter des décalages de jours entre certaines années, nous posons la base des années bissextiles.
   difference = 0
-  if année_naissance == année_actuel:  #Après de nombreux bugs rajoutant 1 année_naissance complet en plus, de créer une condition retirant 1 année complète du comptage sinon on continue dans la lancée
-    if bissextile(année_naissance):
+  if annee_naissance == annee_actuel:  #Après de nombreux bugs rajoutant 1 année_naissance complet en plus, de créer une condition retirant 1 année complète du comptage sinon on continue dans la lancée
+    if bissextile(annee_naissance):
       difference -= 366
     else:
       difference -= 365
   else:
-    for i in range(année_naissance + 1, année_actuel):
+    for i in range(annee_naissance + 1, annee_actuel):
       if bissextile(i):
         difference += 366
       else:
         difference += 365
     for loop in range(1, mois_actuel):
-      difference += nbjoursMois(loop, année_actuel)
+      difference += nbjoursMois(loop, annee_actuel)
     difference += jour_actuel
     for j in range(12, mois_naissance, -1):
-      difference += nbjoursMois(j, année_naissance)
-    difference += nbjoursMois(mois_naissance, année_naissance) - jour_naissance
+      difference += nbjoursMois(j, annee_naissance)
+    difference += nbjoursMois(mois_naissance, annee_naissance) - jour_naissance
     return difference
 
 
 
-def dateEnSemaine(jour_semaine, jour_arrivee, mois_arrivee, année_arrivee, jour_depart, mois_depart, annee_depart):
-  jour = ageJours(jour_depart, mois_depart, annee_depart, jour_arrivee, mois_arrivee, année_arrivee)
+def dateEnSemaine(jour_semaine, jour_arrivee, mois_arrivee, annee_arrivee, jour_depart, mois_depart, annee_depart):
+  jour = ageJours(jour_depart, mois_depart, annee_depart, jour_arrivee, mois_arrivee, annee_arrivee)
   difference = jour % 7
   if difference == 0:
     jour_semaine = [jour_semaine - 1]
@@ -72,7 +72,7 @@ def dateEnSemaine(jour_semaine, jour_arrivee, mois_arrivee, année_arrivee, jour
   return jour_semaine[0]
 
 
-def calendrier(année, today):
+def calendrier(annee, today):
   date = today.split()  #On produit une liste permettant de séparer les éléments indiquer par l'utilisateur
   #Jour, numéro du jour, mois, année du calendrier souhaité
 
@@ -96,15 +96,15 @@ def calendrier(année, today):
     print(listeMois[loop - 1], ":")
     print()
     #Boucle permettant l'affiche de tous les besoins demandées dans ce projet
-    for k in range(1, nbjoursMois(loop, année) + 1):
-      print(listeJours[dateEnSemaine(jourSemaine, jour, mois, annee, k, loop, année)], k, listeMois[loop - 1], année)
+    for k in range(1, nbjoursMois(loop, annee) + 1):
+      print(listeJours[dateEnSemaine(jourSemaine, jour, mois, annee, k, loop, annee)], k, listeMois[loop - 1], annee)
     for loop in range(2):
       print()
 
 
-sortieAnnée = int(input("Calendrier de l'année: "))
+sortieAnnee = int(input("Calendrier de l'année: "))
 aujourdhui = input("Date d'aujourd'hui: ")
-print(calendrier(sortieAnnée, aujourdhui))
+print(calendrier(sortieAnnee, aujourdhui))
 
 
 
